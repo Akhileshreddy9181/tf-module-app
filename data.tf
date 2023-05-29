@@ -11,3 +11,5 @@ data "template_file" "userdata" {
     env = var.env
   }
 }
+
+data "aws_caller_identity" "account" {}
