@@ -104,6 +104,7 @@ resource "aws_lb_target_group" "main" {
 
 }
 
+/*
 resource "aws_route53_record" "main" {
   zone_id = data.aws_route53_zone.domain.zone_id
   name    = "${var.component}-${var.env}.${var.dns_domain}"
@@ -111,3 +112,4 @@ resource "aws_route53_record" "main" {
   ttl     = "30"
   records = [var.alb_dns_name]
 }
+*/
