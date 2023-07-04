@@ -7,9 +7,9 @@ resource "aws_launch_template" "main" {
 
   image_id = data.aws_ami.ami.id
 
-  /*instance_market_options {
+  instance_market_options {
     market_type = "spot"
-  }*/
+  }
   instance_type = var.instance_type
   vpc_security_group_ids = [aws_security_group.main.id]
 
@@ -44,8 +44,20 @@ resource "aws_autoscaling_group" "main" {
   }
   tag {
     key                 = "Name"
-    propagate_at_launch = false
+    propagate_at_launch = true
     value               = "${var.component}-${var.env}"
+  }
+}
+
+resource "aws_autoscaling_policy" "asg-cpu0rule" {
+  name                   = "CPULoadDetect"
+  autoscaling_group_name = aws_autoscaling_group.main.name
+  policy_type = "TargetTrackingScaling"
+  target_tracking_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ASGAverageCPUUtilization"
+    }
+    target_value = 40.0
   }
 }
 
