@@ -57,7 +57,7 @@ resource "aws_autoscaling_policy" "asg-cpu0rule" {
     predefined_metric_specification {
       predefined_metric_type = "ASGAverageCPUUtilization"
     }
-    target_value = 40.0
+    target_value = 20.0
   }
 }
 
@@ -107,7 +107,9 @@ resource "aws_lb_target_group" "main" {
     unhealthy_threshold = 5
     interval = 5
     timeout = 4
+    path = "/health"
   }
+  deregistration_delay = 30
 
   tags = merge(
     var.tags,
