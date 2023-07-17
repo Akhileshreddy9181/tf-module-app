@@ -18,7 +18,16 @@ resource "aws_launch_template" "main" {
 
     tags = merge(
       var.tags,
-      { Name = "${var.component}-${var.env}" }
+      { Name = "${var.component}-${var.env}", Monitor = "yes" }
+    )
+  }
+
+  tag_specifications {
+    resource_type = "spot-instances-request"
+
+    tags = merge(
+      var.tags,
+      { Name = "${var.component}-${var.env}", Monitor = "yes" }
     )
   }
 
